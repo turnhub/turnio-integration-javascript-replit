@@ -1,6 +1,17 @@
 const TurnIntegration = require('@turnio/integration')
 
-const app = new TurnIntegration(process.env.SECRET)
+/* IMPORTANT!
+* You need to get the integration secret from your Turn integrations settings
+* and set it up as an env variable called `SECRET` in your Replit. 
+*/
+const turn_integration_secret = process.env.SECRET
+
+if (process.env.SECRET == undefined) {
+  console.error("[ERROR!] You forgot to set your integration secret as an enviroment variable.")
+  process.exit(1)
+}
+
+const app = new TurnIntegration(turn_integration_secret)
   .context('Language', 'table', ({ chat, messages }) => ({
     Language: 'English',
     Confidence: 'Very high'
@@ -44,9 +55,6 @@ const app = new TurnIntegration(process.env.SECRET)
 const port = process.env.PORT || 3000
 
 app.listen(port, () => {
-  if (process.env.SECRET == undefined) {
-    console.error("[ERROR] You forgot to set your integration secret as an enviroment variable!");
-  }
-  
-  console.log(`Example app listening on port ${port}!`)
+  replit_url = `https://${ process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co`
+  console.log(`Turn UI integration running at ${replit_url}`)
 })
